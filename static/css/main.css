@@ -861,7 +861,7 @@ button {
   -ms-flex-pack: center;
       justify-content: center;
   font-family: 'Poppins', sans-serif;
-  background: url("../images/Searchs_130.gif");
+  background: url("/static/images/Searchs_130.gif");
   background-attachment: fixed;
   background-size: 100vw auto;
   background-position: bottom right;
