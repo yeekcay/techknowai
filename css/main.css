@@ -505,7 +505,7 @@ legend {
 }
 
 .choices.is-disabled .choices__inner, .choices.is-disabled .choices__input {
-  background-color: #EAEAEA;
+  background-color: #d9f1e3;
   cursor: not-allowed;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -862,9 +862,9 @@ button {
       justify-content: center;
   font-family: 'Poppins', sans-serif;
   background: url("../images/Searchs_130.gif");
+  background-attachment: fixed;
+  background-size: 100vw auto;
   background-position: bottom right;
-  background-repeat: no-repeat;
-  background-size: cover;
   padding: 15px;
 }
 
@@ -986,6 +986,23 @@ button {
   font-size: 15px;
   color: #ccc;
   padding-left: 26px;
+}
+
+.results-container {
+  margin: 30px auto 0 auto;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  color: #222;
+  white-space: pre-wrap;
+}
+.loading {
+  color: #009451;
+  font-style: italic;
 }
 
 @media screen and (max-width: 992px) {

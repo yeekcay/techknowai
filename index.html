@@ -8,14 +8,52 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
     <link href="css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      .results-container {
+        display: none; /* Hide by default */
+        margin: 24px auto 0 auto;
+        width: 96vw;
+        max-width: 1200px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 32px 24px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1em;
+        color: #222;
+        white-space: normal; /* Change from pre-wrap to normal */
+        transition: all 0.3s;
+        box-sizing: border-box;
+      }
+      .results-container.visible {
+        display: block;
+      }
+      .s130.results-shown {
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+      .s130.results-shown .inner-form {
+        margin-top: 0;
+      }
+      .s130 .inner-form {
+        transition: margin-top 0.3s;
+      }
+      .results-container pre, 
+      .results-container code {
+        white-space: pre; /* Ensure code blocks keep formatting */
+        overflow-x: auto;
+        display: block;
+      }
+    </style>
   </head>
   <body>
-    <div class="s130">
-      <form>
+    <div class="s130" style="display: flex; flex-direction: column; align-items: center; margin-top: 0px;">
+      <!-- Search form at the top -->
+      <form id="ai-form" style="width: 100%; max-width: 700px;">
         <img src="images/techknowai_5.png" height="180" alt="MDB Logo"
-        loading="lazy" style=" display: block;
-        margin-left: auto;
-        margin-right: auto;" />
+          loading="lazy" style="display: block; margin-left: auto; margin-right: auto;" />
         <div class="inner-form">
           <div class="input-field first-wrap">
             <div class="svg-wrapper">
@@ -26,12 +64,88 @@
             <input id="search" type="text" placeholder="Use AI to Write Code..." />
           </div>
           <div class="input-field second-wrap">
-            <button class="btn-search" type="button">SEARCH</button>
+            <button class="btn-search" type="submit">SEARCH</button>
           </div>
         </div>
-        <!--<span class="info">ex. Game, Music, Video, Photography</span>-->
       </form>
+      <!-- Results directly under the form, full width with padding -->
+      <div id="results" class="results-container" style="width: 100%; max-width: 1200px; margin-top: 24px;"></div>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('ai-form');
+        const input = document.getElementById('search');
+        const results = document.getElementById('results');
+        const s130 = document.querySelector('.s130');
+
+        // Helper: Parse markdown-style code blocks and highlight them
+        function renderResultWithHighlight(text) {
+          // Regex to find ```lang\ncode\n``` blocks
+          const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+          let html = '';
+          let lastIndex = 0;
+          let match;
+
+          while ((match = codeBlockRegex.exec(text)) !== null) {
+            // Add text before the code block, replacing newlines with <br>
+            html += text.slice(lastIndex, match.index).replace(/\n/g, '<br>');
+            const lang = match[1] || '';
+            let code = match[2];
+            // Escape HTML in code
+            code = code.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            html += `<pre><code class="language-${lang}">${code}</code></pre>`;
+            lastIndex = codeBlockRegex.lastIndex;
+          }
+          // Add any remaining text after the last code block
+          html += text.slice(lastIndex).replace(/\n/g, '<br>');
+          results.innerHTML = html;
+          // Highlight all code blocks
+          if (window.hljs) hljs.highlightAll();
+        }
+
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          const prompt = input.value.trim();
+          if (!prompt) return;
+          results.classList.add('visible');
+          results.innerHTML = '<span class="loading">Thinking...</span>';
+          s130.classList.add('results-shown');
+
+          // Set a timeout for the fetch (e.g., 30 seconds)
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 seconds
+
+          try {
+            const response = await fetch('http://localhost:5000/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: prompt }),
+              signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (!response.ok) {
+              results.innerHTML = '<span style="color:red;">No result from AI backend.</span>';
+              return;
+            }
+
+            const data = await response.json();
+            if (!data.result) {
+              results.innerHTML = '<span style="color:red;">No result from AI backend.</span>';
+              return;
+            }
+            renderResultWithHighlight(data.result);
+          } catch (err) {
+            if (err.name === 'AbortError') {
+              results.innerHTML = '<span style="color:red;">AI backend is taking too long to respond.</span>';
+            } else {
+              // results.innerHTML = '<span style="color:red;">Error contacting AI backend.</span>';
+            }
+          }
+        });
+      });
+    </script>
     <script src="js/extention/choices.js"></script>
   </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
