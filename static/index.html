@@ -85,6 +85,7 @@
           let html = '';
           let lastIndex = 0;
           let match;
+          let codeBlockIndex = 0;
 
           while ((match = codeBlockRegex.exec(text)) !== null) {
             // Add text before the code block, replacing newlines with <br>
@@ -93,14 +94,37 @@
             let code = match[2];
             // Escape HTML in code
             code = code.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            html += `<pre><code class="language-${lang}">${code}</code></pre>`;
+            // Add a copy button with a unique data attribute
+            html += `
+              <div class="code-block-wrapper" style="position:relative;">
+                <button class="copy-btn" data-idx="${codeBlockIndex}" style="position:absolute;top:8px;right:8px;z-index:2;padding:2px 8px;font-size:0.9em;cursor:pointer;">Copy</button>
+                <pre style="margin-top:0.5em;"><code class="language-${lang}">${code}</code></pre>
+              </div>
+            `;
             lastIndex = codeBlockRegex.lastIndex;
+            codeBlockIndex++;
           }
           // Add any remaining text after the last code block
           html += text.slice(lastIndex).replace(/\n/g, '<br>');
           results.innerHTML = html;
           // Highlight all code blocks
           if (window.hljs) hljs.highlightAll();
+
+          // Add copy functionality
+          document.querySelectorAll('.copy-btn').forEach((btn) => {
+            btn.addEventListener('click', function () {
+              // Find the code element in the same wrapper
+              const codeElem = btn.parentElement.querySelector('code');
+              if (codeElem) {
+                // Create a temporary textarea to copy text
+                const text = codeElem.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                  btn.textContent = 'Copied!';
+                  setTimeout(() => { btn.textContent = 'Copy'; }, 1200);
+                });
+              }
+            });
+          });
         }
 
         form.addEventListener('submit', async function (e) {
