@@ -1,57 +1,40 @@
 
 ![intro](logo.png)
 
-# 🧠 TechKnowAI
+# TechKnowAI
 
-**TechKnowAI** is an AI-powered website that helps you write code with ease and efficiency.
+An AI-powered website that helps you write code with ease and efficiency.
 
-![TechKnowAI Logo](https://techknowai.yeekinc.online/images/techknowai_5.png)
+## Installation
 
-> A sleek red interface with bold “IKAI” branding—where **AI** is the star—TechKnowAI turns ideas into intelligent code.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
----
-
-## 🌟 Overview
-
+## Overview
 TechKnowAI is a streamlined tool that lets you write code with the power of AI. Whether you're drafting functions, setting up layouts, or exploring logic, this tool brings code generation into your browser—no setup required.
 
-- 🔗 [Live Website](https://techknowai.yeekinc.online/)
-- 📁 [GitHub Repository](https://github.com/yeekcay/techknowai)
+🔗 Live Website 📁 GitHub Repository
 
----
-
-## 🚀 Features
-
-- 💬 Natural language input to describe your coding task
-- ⚡ Instant code generation, all in-browser
-- 🧠 Persistent memory for consistent multi-step interactions
-- 🔄 Copy button for quick reuse
-- 🌐 Deployed using GitHub Pages + Flask backend
-
----
-
-## 🛠 Tech Stack
-
-| Component | Technology         |
-|----------|--------------------|
-| Frontend | HTML / JavaScript  |
-| Backend  | Python / Flask     |
-| Hosting  | GitHub Pages       |
-| AI Logic | Server-side        |
-
----
-
-## 📦 Installation (Dev Mode)
 
 ```bash
+pip install foobar
+```
+
+## Installation
+
+```python
 git clone https://github.com/yeekcay/techknowai.git
 cd techknowai
 pip install -r requirements.txt
 python server.py
-�
+```
 
-🤝 Contributions
-Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change.
+## Contributing
 
-📜 License
-MIT License — feel free to use, adapt, and build upon it.
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
