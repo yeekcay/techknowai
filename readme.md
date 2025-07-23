@@ -1,14 +1,7 @@
-
-![intro](logo.png)
-
 # 🧠 TechKnowAI
 
 **TechKnowAI** is an AI-powered website that helps you write code with ease and efficiency.
-
 ![TechKnowAI Logo](https://techknowai.yeekinc.online/images/techknowai_5.png)
-
-> A sleek red interface with bold “IKAI” branding—where **AI** is the star—TechKnowAI turns ideas into intelligent code.
-
 ---
 
 ## 🌟 Overview
@@ -48,17 +41,21 @@ git clone https://github.com/yeekcay/techknowai.git
 cd techknowai
 pip install -r requirements.txt
 python server.py
-
+```
 Open your browser and visit http://127.0.0.1:5000 to start using TechKnowAI locally.
 
-🧪 Example Use
+## 🧪 Example Use
 Just type:
 
 Create a Python function that checks if a number is prime.
-And get instantly usable code. 🔥
+And get instantly usable code.
 
-🤝 Contributions
+---
+
+## 🤝 Contributions
 Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change.
 
-📜 License
+---
+
+## 📜 License
 MIT License — feel free to use, adapt, and build upon it.
